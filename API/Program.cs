@@ -3,12 +3,17 @@ using TrilhaNetAzureDesafio.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ==================== Configuração do DbContext ==================== //
+// Conecta o EF Core ao Azure SQL Database usando a connection string
 builder.Services.AddDbContext<RHContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ConexaoPadrao")));
 
+// ==================== Serviços MVC/Controllers ==================== //
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// ==================== Swagger / OpenAPI ==================== //
+// Facilita testes da API e documentação
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

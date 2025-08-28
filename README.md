@@ -1,37 +1,52 @@
-# DIO - Trilha .NET - Nuvem com Microsoft Azure
-www.dio.me
+# 📌 Sistema de Cadastro de RH – Deploy no Microsoft Azure
+---
+## 🚀 Desafio de Projeto
 
-## Desafio de projeto
-Para este desafio, você precisará usar seus conhecimentos adquiridos no módulo de Nuvem com Microsoft Azure, da trilha .NET da DIO.
+Este projeto consiste em desenvolver e publicar uma API de cadastro de funcionários de RH na nuvem utilizando Microsoft Azure.
 
-## Contexto
-Você precisa construir um sistema de RH, onde para essa versão inicial do sistema o usuário poderá cadastrar os funcionários de uma empresa. 
+A API permite cadastrar, consultar, atualizar e remover funcionários (CRUD), além de armazenar logs de todas as alterações em uma Azure Table.
 
-Essa cadastro precisa precisa ter um CRUD, ou seja, deverá permitir obter os registros, criar, salvar e deletar esses registros. A sua aplicação também precisa armazenar logs de toda e qualquer alteração que venha a ocorrer com um funcionário.
+---
+## 📋 Contexto
 
-## Premissas
-A sua aplicação deverá ser do tipo Web API, Azure Functions ou MVC, fique a vontade para implementar a solução que achar mais adequado.
+O objetivo é construir um sistema de RH simples para gestão de funcionários.
 
-A sua aplicação deverá ser implantada no Microsoft Azure, utilizando o App Service para a API, SQL Database para o banco relacional e Azure Table para armazenar os logs.
+Cada funcionário possui informações como: nome, endereço, ramal, e-mail profissional, departamento, salário e data de admissão.
 
-A sua aplicação deverá armazenar os logs de todas as alterações que venha a acontecer com o funcionário. Os logs deverão serem armazenados em uma Azure Table.
+- O sistema armazena um log de toda modificação, para auditoria e rastreabilidade.
 
-A sua classe principal, a classe Funcionario e a FuncionarioLog, deve ser a seguinte:
+- A aplicação foi desenvolvida como Web API com .NET.
 
-![Diagrama da classe Funcionario](Imagens/diagrama_classe.png)
+- Foi realizado o deploy no Microsoft Azure, utilizando:
 
-A classe FuncionarioLog é filha da classe Funcionario, pois o log terá as mesmas informações da Funcionario.
+- App Service → Hospedagem da API.
 
-Não se esqueça de gerar a sua migration para atualização no banco de dados.
+- SQL Database → Armazenamento relacional dos funcionários.
+
+- Azure Table Storage → Persistência dos logs.
+
+---
+# 📐 Diagrama das Classes
+Entidades principais:
+
+- Funcionario
+
+- FuncionarioLog (herda de Funcionario)
+
+
+![Diagrama da classe Funcionario](docs/Imagens/diagrama_classe.png)
+
+A classe FuncionarioLog herda de Funcionario para reutilizar seus atributos, adicionando campos específicos de auditoria como tipo de ação e timestamp.
+
 
 ## Métodos esperados
-É esperado que você crie o seus métodos conforme a seguir:
+Métodos do Swagger conforme a seguir:
 
 
 **Swagger**
 
 
-![Métodos Swagger](Imagens/swagger.png)
+![Métodos Swagger](docs/Imagens/swagger.png)
 
 
 **Endpoints**
@@ -48,21 +63,118 @@ Esse é o schema (model) de Funcionario, utilizado para passar para os métodos 
 
 ```json
 {
-  "nome": "Nome funcionario",
-  "endereco": "Rua 1234",
-  "ramal": "1234",
-  "emailProfissional": "email@email.com",
+  "nome": "Joao Carlos",
+  "endereco": "Rua sem saida 1234",
+  "ramal": "5555",
+  "emailProfissional": "joao@email.com",
   "departamento": "TI",
-  "salario": 1000,
-  "dataAdmissao": "2022-06-23T02:58:36.345Z"
+  "salario": 3000,
+  "dataAdmissao": "2025-08-28T02:52:36.345Z"
 }
 ```
 
-## Ambiente
-Este é um diagrama do ambiente que deverá ser montado no Microsoft Azure, utilizando o App Service para a API, SQL Database para o banco relacional e Azure Table para armazenar os logs.
+## ☁️ Arquitetura no Azure
 
-![Diagrama da classe Funcionario](Imagens/diagrama_api.png)
+O ambiente na nuvem foi configurado da seguinte forma:
+
+- App Service → Hospeda a API de RH.
+
+- SQL Database → Contém os dados dos funcionários.
+
+- Azure Table Storage → Guarda os logs das alterações (INSERT, UPDATE, DELETE).
+
+![Diagrama da classe Funcionario](docs/Imagens/diagrama_api.png)
 
 
-## Solução
-O código está pela metade, e você deverá dar continuidade obedecendo as regras descritas acima, para que no final, tenhamos um programa funcional. Procure pela palavra comentada "TODO" no código, em seguida, implemente conforme as regras acima, incluindo a sua publicação na nuvem.
+---
+
+⚙️ Tecnologias Utilizadas
+
+- .NET 8 Web API
+
+- Entity Framework Core
+
+- Microsoft Azure App Service
+
+- Azure SQL Database
+
+- Azure Table Storage
+
+- Swagger / OpenAPI
+
+
+---
+# Estrutura do repositório
+
+```
+trilha-net-azure-desafio/        
+├─ docs/
+│  ├─ Imagens/
+│  │  ├─ diagrama_classe.png
+│  │  ├─ diagrama_api.png
+│  │  ├─ recursoscriados.png
+│  │  ├─ bdcadastrar.png
+│  │  ├─ bdatualizar.png
+│  │  ├─ bdremover.png
+│  │  ├─ loginclusao.png
+│  │  ├─ logatualizado.png
+│  │  └─ logremocao.png
+├─ API/
+│  └─ ├─ Controllers/
+│     │  └─ FuncionarioController.cs
+│     ├─ Context/
+│     │  └─ RHContext.cs
+│     ├─ Models/
+│     │  ├─ Funcionario.cs
+│     │  ├─ FuncionarioLog.cs
+│     │  └─ TipoAcao.cs
+│     ├─ Properties/
+│     │  └─ launchSettings.json
+│     ├─ Program.cs
+│     ├─ trilha-net-azure-desafio.csproj
+│     └─ appsettings.json        
+├─ tests/
+│  └─ trilha-net-azure-desafio.Tests/
+│     ├─ UnitTests.cs
+│     └─ trilha-net-azure-desafio.Tests.csproj
+├─ .gitignore
+├─ trilha-net-azure-desafio.sln
+└─ README.md
+
+```
+
+## 🚀 Deploy no Azure
+
+**Recursos criados no Azure**  
+![App Service](docs/Imagens/recursoscriados.png)
+
+---
+
+## 📤 Cadastro no SQL
+![Cadastro](docs/Imagens/bdcadastrar.png)
+
+---
+
+## ✏️ Atualização no SQL
+![Atualizar](docs/Imagens/bdatualizar.png)
+
+---
+
+## ❌ Remoção no SQL
+![Remover](docs/Imagens/bdremover.png)
+
+---
+## 📝 Log de Inclusão 
+![Log incluido](docs/Imagens/loginclusao.png)
+
+---
+
+## 🔄 Log de Atualização 
+![Log atualizado](docs/Imagens/logatualizado.png)
+
+---
+
+## 🗑️ Log de Remoção 
+![Log remoção](docs/Imagens/logremocao.png)
+
+---
